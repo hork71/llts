@@ -45,7 +45,7 @@ export class CPU {
     return this.registers.setUint16(this.registerMap[name], value);
   }
 
-  // fetch naam gereserveerd, vandaar obtain
+  // fetch' is a reserved word in deno
   obtain(): number {
     const nextInstructionAddress: number = this.getRegister('ip');
     const instruction: number = this.memory.getUint8(nextInstructionAddress);
@@ -61,7 +61,7 @@ export class CPU {
   }
 
 
-  execute(instruction: number) {
+  execute(instruction: number): void {
     switch (instruction) {
       // Move literal into the r1 register
       case instructions.MOV_LIT_R1: {

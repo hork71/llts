@@ -26,9 +26,7 @@ async function main(): Promise<void> {
   for await (const line of readLines(Deno.stdin)) {
     cpu.step();
     cpu.debug();
-
   }
-  
 }
 
 main();

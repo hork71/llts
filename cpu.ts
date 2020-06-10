@@ -25,10 +25,18 @@ export class CPU {
   }
 
   debug(): void {
-    this.registerNames.forEach(name => {
+    this.registerNames.forEach((name: string) => {
       console.log(`${name}: 0x${this.getRegister(name).toString(16).padStart(4, '0')}`);
     });
     console.log();
+  }
+
+  viewMemoryAt(address: number): void {
+    const nextEightBytes: Array<string> = Array.from({length: 8}, (_, i) => 
+      this.memory.getUint8(address + i) 
+    ).map(v => `0x${v.toString(16).padStart(2, '0')}`);
+
+    console.log(`0x${address.toString(16).padStart(4, '0')}: ${nextEightBytes.join(' ')}`);
   }
 
   getRegister(name: string): number {
@@ -63,17 +71,38 @@ export class CPU {
 
   execute(instruction: number): void {
     switch (instruction) {
-      // Move literal into the r1 register
-      case instructions.MOV_LIT_R1: {
-        const literal = this.obtain16();
-        this.setRegister('r1', literal)
+      // Move literal into into register
+      case instructions.MOV_LIT_REG: {
+        const literal: number = this.obtain16();
+        const register: number = (this.obtain() % this.registerNames.length) * 2;
+        this.registers.setUint16(register, literal);
         return;
       }
 
-      // Move literal into the r2 register
-      case instructions.MOV_LIT_R2: {
-        const literal = this.obtain16();
-        this.setRegister('r2', literal)
+      // Move register to register
+      case instructions.MOV_REG_REG: {
+        const registerFrom: number = (this.obtain() % this.registerNames.length) * 2;
+        const registerTo: number = (this.obtain() % this.registerNames.length) * 2;
+        const value: number = this.registers.getUint16(registerFrom);
+        this.registers.setUint16(registerTo, value);
+        return;
+      }
+
+      // Move register to memory
+      case instructions.MOV_REG_MEM: {
+        const registerFrom: number = (this.obtain() % this.registerNames.length) * 2;
+        const address: number = this.obtain16();
+        const value: number = this.registers.getUint16(registerFrom);
+        this.memory.setUint16(address, value);
+        return;
+      }
+
+      // Move memory to register
+      case instructions.MOV_MEM_REG: {
+        const address: number = this.obtain16();
+        const registerTo: number = (this.obtain() % this.registerNames.length) * 2;
+        const value: number = this.memory.getUint16(address);
+        this.registers.setUint16(registerTo, value);
         return;
       }
 

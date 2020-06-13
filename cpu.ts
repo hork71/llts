@@ -2,12 +2,11 @@ import { createMemory } from './create-memory.ts';
 import { Instructions as instructions } from './instructions.ts';
 
 export class CPU {
-  memory: DataView;
-  registerNames: Array<string>;
-  registers: DataView;
-  registerMap: Record<string, any>;
+  private registerNames: Array<string>;
+  private registers: DataView;
+  private registerMap: Record<string, any>;
 
-  constructor(memory: DataView) {
+  constructor(private memory: DataView) {
     this.memory = memory;
 
     this.registerNames = [
@@ -108,11 +107,21 @@ export class CPU {
 
       // Add register to register
       case instructions.ADD_REG_REG: {
-        const r1 = this.obtain();
-        const r2 = this.obtain();
-        const registerValue1 = this.registers.getUint16(r1 * 2);
-        const registerValue2 = this.registers.getUint16(r2 * 2);
+        const r1: number = this.obtain();
+        const r2: number = this.obtain();
+        const registerValue1: number = this.registers.getUint16(r1 * 2);
+        const registerValue2: number = this.registers.getUint16(r2 * 2);
         this.setRegister('acc', registerValue1 + registerValue2);
+        return;
+      }
+
+      case instructions.JMP_NOT_EQ: {
+        const value: number = this.obtain16();
+        const address: number = this.obtain16();
+
+        if (value !== this.getRegister('acc')) {
+          this.setRegister('ip', address);
+        }
         return;
       }
     }

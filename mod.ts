@@ -45,7 +45,7 @@ async function main(): Promise<void> {
   writableBytes[i++] = instructions.MOV_LIT_REG;
   writableBytes[i++] = 0x56;
   writableBytes[i++] = 0x78;
-  writableBytes[i++] = R2;
+  writableBytes[i++] = R4;
 
   writableBytes[i++] = instructions.PSH_LIT;
   writableBytes[i++] = 0x00;
@@ -82,7 +82,7 @@ async function main(): Promise<void> {
   writableBytes[i++] = instructions.MOV_LIT_REG;
   writableBytes[i++] = 0x09;
   writableBytes[i++] = 0x0A;
-  writableBytes[i++] = R4;
+  writableBytes[i++] = R8;
 
   writableBytes[i++] = instructions.RET;
 

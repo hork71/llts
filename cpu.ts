@@ -85,7 +85,7 @@ export class CPU {
   pop(): number {
     const nextSpAddress: number = this.getRegister('sp') + 2;
     this.setRegister('sp', nextSpAddress);
-    this.stackFrameSize += 2;
+    this.stackFrameSize -= 2;
     return this.memory.getUint16(nextSpAddress);
   }
 

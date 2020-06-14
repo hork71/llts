@@ -94,7 +94,7 @@ async function main(): Promise<void> {
     cpu.step();
     cpu.debug();
     cpu.viewMemoryAt(cpu.getRegister('ip'));
-    cpu.viewMemoryAt(0xffff -1 - 42, 44);
+    cpu.viewMemoryAt(0xffff - 1 - 42, 44);
     console.log(line);
   }
 }

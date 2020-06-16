@@ -3,15 +3,15 @@ import { createMemory } from '../create-memory.ts';
 
 const memory = createMemory(256);
 
-Deno.test('Test createMemory', function (): void {
+Deno.test('Creates memory succesfully', function (): void {
   assertEquals(memory.byteLength, 256);
   assertEquals(memory.byteOffset, 0);
 });
 
-Deno.test({
-  name: "Testing createMemory",
-  fn(): void {
-    assertEquals(memory.byteLength, 256);
-    assertEquals(memory.byteOffset, 0);
-  },
-});
+//Deno.test({
+//  name: "createMemory",
+//  fn(): void {
+//    assertEquals(memory.byteLength, 256);
+//    assertEquals(memory.byteOffset, 0);
+//  },
+//});

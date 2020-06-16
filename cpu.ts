@@ -24,8 +24,8 @@ export class CPU {
       return map;
     }, {});
 
-    this.setRegister('sp', memory.byteLength -1 -1);
-    this.setRegister('fp', memory.byteLength -1 -1);
+    this.setRegister('sp', memory.byteLength - 1 - 1);
+    this.setRegister('fp', memory.byteLength - 1 - 1);
 
     this.stackFrameSize = 0;
   }
@@ -173,8 +173,8 @@ export class CPU {
 
       // Add register to register
       case instructions.ADD_REG_REG: {
-        const r1: number = this.obtain();
-        const r2: number = this.obtain();
+        const r1: number = this.fetchRegisterIndex();
+        const r2: number = this.fetchRegisterIndex();
         const registerValue1: number = this.registers.getUint16(r1 * 2);
         const registerValue2: number = this.registers.getUint16(r2 * 2);
         this.setRegister('acc', registerValue1 + registerValue2);
@@ -219,6 +219,7 @@ export class CPU {
         const address: number = this.obtain16();
         this.pushState();
         this.setRegister('ip', address);
+        return;
       }
 
       // Call register
